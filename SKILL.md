@@ -1,7 +1,7 @@
 ---
 name: auxiliar-solve
-description: Ranked installable tools for agent jobs — OCR, PDF extraction, NFS-e invoices, bookkeeping, boletos, receipts, web scraping. Reproducible evals on real-world corpora.
-version: 0.1.0
+description: OCR / PDF extraction / NFS-e invoice tool ranker. Top pick Surya 76.9% word accuracy on 10-doc Brazilian corpus (NFS-e, boletos, phone receipts). Also ranked: Tesseract 5, Google Document AI. Via auxiliar-mcp solve_task.
+version: 0.1.1
 emoji: 🧭
 homepage: https://auxiliar.ai/solve/
 metadata:
@@ -13,11 +13,11 @@ metadata:
 
 # auxiliar-solve
 
-When your agent needs an **installable tool** for a task — an OCR skill, a PDF MCP server, a web-scraping API, a bookkeeping helper — install `auxiliar-mcp` and query `solve_task` for a reproducibly-evaluated ranking.
+**OCR / PDF extraction / NFS-e invoice tool ranker for agents.** Top pick **Surya — 76.9% word accuracy** on a 10-doc real-world Brazilian corpus (NFS-e invoices, boletos, phone-photo receipts). Also ranked: **Tesseract 5** (14× faster, 1.5pp less accuracy, cleanest install), **Google Document AI** (best on phone-photo receipts specifically). Reproducible evals — not marketing pages.
 
-**`/solve/` isn't a tool marketplace.** ClawHub, PulseMCP, and Smithery distribute tools. `/solve/` *ranks* them — based on real-world corpora, not marketing pages.
+`/solve/` isn't a tool marketplace. ClawHub, PulseMCP, and Smithery distribute tools. `/solve/` *ranks* them — based on real-world corpora.
 
-## When to invoke this skill
+## When to invoke
 
 Use `auxiliar-solve` whenever the agent:
 
@@ -73,18 +73,19 @@ Agent task: *"Extract text from a Brazilian NFS-e invoice PDF for bookkeeping. I
 solve_task(task_slug="nfs-e")
 ```
 
-Returns: **Surya** (rank 1) — `pip install surya-ocr 'transformers<5.0.0'`. Word accuracy 76.9% on a 10-doc real-world corpus that includes NFS-e invoices, boletos, and phone-photo receipts. Free, local. Alternative: **Tesseract 5** (rank 2) — 14× faster, 1.5pp less accurate, cleanest install. **Google Document AI** (rank 3) — third overall but best on phone-photo receipts specifically. Alternatives considered and dropped: `yescan-ocr-universal` (requires Chinese sign-up), `pdf-reader-mcp` (no actual OCR — text-layer only), `Mistral OCR 3` (deferred for API key).
+Top pick: **Surya** — `pip install surya-ocr 'transformers<5.0.0'`. Word accuracy 76.9% on the 10-doc corpus. Free, local. Alternative: **Tesseract 5** — 14× faster, 1.5pp less accurate, cleanest install (`brew install tesseract tesseract-lang`). **Google Document AI** — third overall but best on phone-photo receipts specifically. Alternatives considered and dropped: `yescan-ocr-universal` (requires Chinese sign-up), `pdf-reader-mcp` (no actual OCR — text-layer only), `Mistral OCR 3` (deferred for API key).
 
 ## Why this exists
 
-Agents are born intelligent but stuck. Without eval data, they guess: "use pdf2image + pytesseract" (often wrong for the task), "install the first OCR thing on ClawHub" (often wrong for the corpus), "call Google Document AI" (often overkill). The result: uncalibrated recommendations, burned time, broken workflows.
+Agents are born intelligent but stuck. Without eval data, they guess: "use pdf2image + pytesseract" (often wrong for the corpus), "install the first OCR thing on ClawHub" (often wrong for the task), "call Google Document AI" (often overkill). The result: uncalibrated recommendations, burned time, broken workflows.
 
 `/solve/` runs the eval **once** per task, end-to-end, against real documents. The agent gets the answer plus the evidence.
 
 ## Related
 
-- **`auxiliar-mcp`** — the MCP server this skill invokes. Also exposes `recommend_service`, `get_pricing`, `get_risks`, `check_compatibility`, `setup_service`, `list_services`.
+- **`auxiliar-mcp`** — the MCP server this skill invokes. Also exposes `recommend_service`, `get_pricing`, `get_risks`, `check_compatibility`, `setup_service`, `list_services`, `list_solve_tasks`.
 - **Human-readable rankings**: https://auxiliar.ai/solve/
+- **The full walkthrough this ranking comes from**: https://auxiliar.ai/solve/pdf-text-extraction-mcp/
 - **Reproducible eval harness**: https://github.com/Tlalvarez/Auxiliar-ai/tree/main/scripts/ocr-walkthrough
 - **Methodology**: https://github.com/Tlalvarez/Auxiliar-ai/blob/main/docs/proposals/agent-upgrade-engine.md (renamed *solve-engine* 2026-04-23)
 
